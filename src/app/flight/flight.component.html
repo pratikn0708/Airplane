@@ -1,1 +1,30 @@
-<p>flight works!</p>
+<div>
+    <mat-list>
+        <mat-list-item *ngFor="let item of flightDetails;let i = index" class="mat-list-item-flight-list">
+            <div class="flight-list-id">{{item.id}}</div>
+            <div class="flight-list-name">{{item.name}}</div>
+            <div class="flight-list-arrivalTime">
+                <p>Arrival Time:{{item.arrivalTime}}</p>
+            </div>
+            <div class="flight-list-departureTime">
+                <p>Departure Time:{{item.departureTime}}</p>
+            </div>
+            <div *ngIf="flag === 'staff'" class="flight-list-inFlight">
+                <button mat-stroked-button routerLink=".">
+                    In-Flight
+                </button>
+            </div>
+            <div *ngIf="flag === 'staff'" class="flight-list-checkIn">
+                <button mat-stroked-button routerLink=".">
+                    Check-In
+                </button>
+            </div>
+            <div *ngIf="flag === 'admin'" class="flight-list-checkIn">
+                <button mat-stroked-button routerLink=".">
+                    Manage
+                </button>
+            </div>
+            <mat-divider></mat-divider>
+        </mat-list-item>
+    </mat-list>
+</div>

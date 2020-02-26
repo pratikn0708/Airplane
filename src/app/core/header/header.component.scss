@@ -20,11 +20,13 @@ $link-hover-color: red;
       display: flex;
       width: 100%;
       align-items: center;
+      cursor: pointer;
 
       .flight-logo-text {
         color: $link-hover-color;
         margin-left: 10px;
-      }
+        cursor: pointer;
+    }
 
       .flight-logo {
         height: 34px;

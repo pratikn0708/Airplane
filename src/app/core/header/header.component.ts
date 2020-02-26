@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, NavigationEnd } from '@angular/router';
+import { AuthService } from 'src/app/auth/auth.service';
+import { filter } from 'rxjs/operators';
 
 @Component({
   selector: 'app-header',
@@ -8,7 +10,8 @@ import { Router } from '@angular/router';
 })
 export class HeaderComponent implements OnInit {
 
-  constructor(private router: Router) {
+  private flag = '';
+  constructor(private router: Router, private authService: AuthService) {
     const url: string = window.location.href;
     this.activeLink = '';
 
@@ -16,16 +19,27 @@ export class HeaderComponent implements OnInit {
       this.activeLink = 'flights';
     } else if (url.includes('about')) {
       this.activeLink = 'about';
+    } else if (url.includes('login')) {
+      this.activeLink = 'login';
     }
+    this.flag = this.authService.fetchAuthStatusListener();
   }
 
   activeLink: string;
 
-  ngOnInit(): void { }
+  ngOnInit(): void {
+    this.router.events
+      .pipe(filter(e => e instanceof NavigationEnd))
+      .subscribe((e: NavigationEnd) => {
+        this.flag = this.authService.fetchAuthStatusListener();
+        this.activeLink = e.url;
+      });
+  }
 
   handleNavigation(location: string): void {
     this.router.navigate([`/${location}`]);
     this.activeLink = location;
+    this.flag = this.authService.fetchAuthStatusListener();
   }
 
 }

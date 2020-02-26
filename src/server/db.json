@@ -454,5 +454,17 @@
                 "French"
             ]
         }
+    ],
+    "login": [
+        {
+            "email": "staff@gmail.com",
+            "password": "staff",
+            "flag": "staff"
+        },
+        {
+            "email": "admin@gmail.com",
+            "password": "admin",
+            "flag": "admin"
+        }
     ]
 }

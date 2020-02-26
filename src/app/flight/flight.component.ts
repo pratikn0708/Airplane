@@ -3,6 +3,9 @@ import { Router } from '@angular/router';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { FlightService } from './service/flight.service';
+import { Flight } from './service/flight.model';
+import { MatExpansionPanelTitle } from '@angular/material';
+import { AuthService } from '../auth/auth.service';
 
 @Component({
   selector: 'app-flight',
@@ -12,12 +15,17 @@ import { FlightService } from './service/flight.service';
 export class FlightComponent implements OnInit, OnDestroy {
   constructor(
     private router: Router,
-    private flightService: FlightService
+    private flightService: FlightService,
+    private authService: AuthService
   ) { }
 
   private unsubscribe$ = new Subject();
 
+  flightDetails: Flight[];
+  private flag = '';
+
   ngOnInit(): void {
+    this.flag = this.authService.fetchAuthStatusListener();
     this.serviceCall();
   }
 
@@ -26,7 +34,7 @@ export class FlightComponent implements OnInit, OnDestroy {
       .getFlights().pipe(takeUntil(this.unsubscribe$))
       .subscribe(
         res => {
-          console.log(res);
+          this.flightDetails = res;
         },
         error => {
           console.log(error);
