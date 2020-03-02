@@ -13,6 +13,8 @@ import { HomeComponent } from './core/home/home.component';
 import { HeaderComponent } from './core/header/header.component';
 import { HttpClientModule } from '@angular/common/http';
 import { ReactiveFormsModule } from '@angular/forms';
+import { FlightModule } from './flight/flight.module';
+import { AdminModule } from './admin/admin.module';
 
 
 @NgModule({
@@ -31,7 +33,9 @@ import { ReactiveFormsModule } from '@angular/forms';
     BrowserAnimationsModule,
     MaterialModule,
     HttpClientModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    FlightModule,
+    AdminModule
   ],
   providers: [],
   bootstrap: [AppComponent]

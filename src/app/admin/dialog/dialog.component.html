@@ -1,0 +1,106 @@
+<section class="container-full formClass">
+    <h2 class="title">{{title}}</h2>
+    <form #myForm="ngForm" [formGroup]="CreatePassenger">
+        <div class="col-span-4">
+            <mat-form-field class="airline-input">
+                <input matInput type="name" placeholder="Passenger Name" formControlName="name" required />
+                <mat-error>Please enter a valid Passenger Name</mat-error>
+            </mat-form-field>
+        </div>
+        <div class="col-span-4">
+            <mat-form-field>
+                <input matInput type="seatNumber" placeholder="Seat Number" formControlName="seatNumber" />
+                <mat-error>Please enter a valid Seat Number</mat-error>
+            </mat-form-field>
+        </div>
+        <div class="col-span-4">
+            <mat-form-field>
+                <mat-label>Ancillery Services</mat-label>
+                <mat-select multiple formControlName="ancilliaryServices" required>
+                    <mat-option *ngFor="let service of services" [value]="service">{{service}}</mat-option>
+                </mat-select>
+                <mat-error>Please Choose Ancillery Services</mat-error>
+            </mat-form-field>
+        </div>
+        <div class="col-span-4">
+            <mat-form-field>
+                <mat-label>Meals</mat-label>
+                <mat-select multiple formControlName="meals" required>
+                    <mat-option *ngFor="let meal of meals" [value]="meal">{{meal}}</mat-option>
+                </mat-select>
+                <mat-error>Please Choose Meals</mat-error>
+            </mat-form-field>
+        </div>
+        <div class="col-span-4">
+            <mat-form-field>
+                <mat-label>Shopping Items</mat-label>
+                <mat-select multiple formControlName="shoppingItems" required>
+                    <mat-option *ngFor="let shoppingItem of shoppingItems" [value]="shoppingItem">{{shoppingItem}}
+                    </mat-option>
+                </mat-select>
+                <mat-error>Please Choose Shopping Items</mat-error>
+            </mat-form-field>
+        </div>
+        <div class="col-span-4">
+            <mat-form-field>
+                <input matInput type="passportNumber" placeholder="Passport Number" formControlName="passportNumber"
+                    required />
+                <mat-error>Please enter a valid Passport Number</mat-error>
+            </mat-form-field>
+        </div>
+        <div class="col-span-4">
+            <mat-form-field>
+                <input matInput type="address" placeholder="Address" formControlName="address" required />
+                <mat-error>Please enter a valid Address</mat-error>
+            </mat-form-field>
+        </div>
+        <div class="col-span-4">
+            <mat-form-field>
+                <input matInput [matDatepicker]="picker1" placeholder="Enter Date of Birth"
+                    formControlName="dateOfBirth" required>
+                <mat-datepicker-toggle matSuffix [for]="picker1">
+                </mat-datepicker-toggle>
+                <mat-datepicker #picker1></mat-datepicker>
+                <mat-error>Please enter a valid Date of Birth</mat-error>
+            </mat-form-field>
+
+        </div>
+        <div class="col-span-4" class="matDivClass">
+            <mat-label class="matToogleClass">Wheel Chair</mat-label>
+            <mat-button-toggle-group appearance="legacy" formControlName="isWheelChairRequired" required
+                name="fontStyle" aria-label="Font Style">
+                <mat-button-toggle value="yes">Yes</mat-button-toggle>
+                <mat-button-toggle value="no">No</mat-button-toggle>
+            </mat-button-toggle-group>
+        </div>
+        <div class="col-span-4"></div>
+        <div class="col-span-4" class="matDivClass">
+            <mat-label class="matToogleClass">Passenger with Infants</mat-label>
+            <mat-button-toggle-group appearance="legacy" formControlName="hasInfant" required name="fontStyle"
+                aria-label="Font Style">
+                <mat-button-toggle value="yes">Yes</mat-button-toggle>
+                <mat-button-toggle value="no">No</mat-button-toggle>
+            </mat-button-toggle-group>
+        </div>
+        <div class="col-span-4"></div>
+        <div class="col-span-4" class="matDivClass">
+            <mat-label class="matToogleClass">Passenger CheckedIn or not?</mat-label>
+            <mat-button-toggle-group appearance="legacy" formControlName="isCheckedIn" required name="fontStyle"
+                aria-label="Font Style">
+                <mat-button-toggle value="yes">Yes</mat-button-toggle>
+                <mat-button-toggle value="no">No</mat-button-toggle>
+            </mat-button-toggle-group>
+        </div>
+    </form>
+</section>
+<form>
+</form>
+<section class="container-full buttonClass">
+    <div class="col-span-6">
+        <button mat-flat-button class="button-full" color="primary" type="button" (click)="onsubmit()"
+            [disabled]="!CreatePassenger.valid">Submit</button>
+    </div>
+    <div class="col-span-6">
+        <button mat-flat-button class="button-full" color="warn" type="button" (click)="clear()">Clear</button>
+    </div>
+</section>

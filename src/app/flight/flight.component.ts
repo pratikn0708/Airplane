@@ -42,6 +42,10 @@ export class FlightComponent implements OnInit, OnDestroy {
       );
   }
 
+  onManageClick(i: number): void {
+    this.router.navigate([`/flights/${i}/admin/home`]);
+  }
+
   ngOnDestroy(): void {
     this.unsubscribe$.next();
     this.unsubscribe$.complete();

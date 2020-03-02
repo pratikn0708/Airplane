@@ -1,0 +1,26 @@
+.formClass{
+    overflow: auto;
+    max-height: 500px;
+    width: 600px;
+}
+
+.buttonClass{
+    display: flex;
+    justify-content: space-between;
+}
+
+.matToogleClass{
+    padding: 12px;
+}
+
+.matDivClass{
+    margin-top: 30px;
+}
+
+.mat-button-toggle-checked{
+    background-color: #673AB7;
+}
+
+.mat-button-toggle{
+    color: black;
+}

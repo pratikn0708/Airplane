@@ -19,8 +19,8 @@
                     Check-In
                 </button>
             </div>
-            <div *ngIf="flag === 'admin'" class="flight-list-checkIn">
-                <button mat-stroked-button routerLink=".">
+            <div class="flight-list-checkIn">
+                <button mat-stroked-button (click)="onManageClick(i)">
                     Manage
                 </button>
             </div>

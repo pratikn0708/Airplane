@@ -21,7 +21,9 @@ import {
     MatDialogModule,
     MatSlideToggleModule,
     MatCheckboxModule,
-    MatButtonToggleModule
+    MatButtonToggleModule,
+    MatTableModule,
+    MatTabsModule
 } from '@angular/material';
 const exportedMaterialModule = [
     MatSidenavModule,
@@ -45,7 +47,9 @@ const exportedMaterialModule = [
     MatDialogModule,
     MatSlideToggleModule,
     MatCheckboxModule,
-    MatButtonToggleModule
+    MatButtonToggleModule,
+    MatTableModule,
+    MatTabsModule
 ];
 
 @NgModule({
