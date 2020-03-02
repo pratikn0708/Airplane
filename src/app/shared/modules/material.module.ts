@@ -23,7 +23,8 @@ import {
     MatCheckboxModule,
     MatButtonToggleModule,
     MatTableModule,
-    MatTabsModule
+    MatTabsModule,
+    MatGridListModule
 } from '@angular/material';
 const exportedMaterialModule = [
     MatSidenavModule,
@@ -49,7 +50,8 @@ const exportedMaterialModule = [
     MatCheckboxModule,
     MatButtonToggleModule,
     MatTableModule,
-    MatTabsModule
+    MatTabsModule,
+    MatGridListModule
 ];
 
 @NgModule({

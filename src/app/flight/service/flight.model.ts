@@ -34,3 +34,4 @@ export interface PassengerDetail {
   address: string;
   shoppingItems: string[];
 }
+

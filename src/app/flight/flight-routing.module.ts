@@ -7,7 +7,8 @@ import { InFlightComponent } from './in-flight/in-flight.component';
 const routes: Routes = [
   {
     path: '',
-    component: FlightComponent
+    pathMatch: 'full',
+    component: FlightComponent,
   },
   {
     path: ':flightId/check-in',

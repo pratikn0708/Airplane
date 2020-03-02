@@ -13,8 +13,7 @@ const routes: Routes = [
   },
   {
     path: 'flights',
-    loadChildren: () =>
-      import('./flight/flight.module').then(mod => mod.FlightModule)
+    loadChildren: './flight/flight.module#FlightModule',
   },
   {
     path: 'about',

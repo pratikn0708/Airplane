@@ -163,7 +163,7 @@
             "Movie",
             "Snacks"
           ],
-          "passportNumber": "5432160",
+          "passportNumber": "5432161",
           "address": "Florida, US",
           "dateOfBirth": "1976-11-19T18:30:00.000Z",
           "isCheckedIn": "yes",
@@ -271,7 +271,8 @@
       "ancilliaryServices": [
         "Snacks",
         "Cold-drinks",
-        "Movies"
+        "Movies",
+        "Game"
       ],
       "meals": [
         "Veg",
