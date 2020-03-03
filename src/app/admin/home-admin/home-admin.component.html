@@ -70,6 +70,60 @@
 
     </mat-tab>
 
+    <mat-tab label="Manage Meals ">
+        <button mat-raised-button color="primary" (click)="onAddMeals()">
+            <mat-icon>add</mat-icon>Add Meals
+        </button>
+        <div class="tableDiv">
+            <table mat-table [dataSource]="meals" class="mat-elevation-z8">
+                <ng-container matColumnDef="addedMeal">
+                    <th mat-header-cell *matHeaderCellDef> Meals</th>
+                    <td mat-cell *matCellDef="let element"> {{element}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="action">
+                    <th class="actionDiv" mat-header-cell *matHeaderCellDef> Actions </th>
+                    <td mat-cell *matCellDef="let element">
+                        <button class="deleteBtn" mat-raised-button color="accent"
+                            (click)="updateMeal(element)">Edit</button>
+                        <button class="deleteBtn" mat-raised-button color="warn"
+                            (click)="deleteMeal(element)">Delete</button></td>
+                </ng-container>
+
+                <tr mat-header-row *matHeaderRowDef="mealDisplayedColumns"></tr>
+                <tr mat-row *matRowDef="let row; columns: mealDisplayedColumns;"></tr>
+            </table>
+        </div>
+
+    </mat-tab>
+
+    <mat-tab label="Manage Shopping Items ">
+        <button mat-raised-button color="primary" (click)="onAddShoppingItem()">
+            <mat-icon>add</mat-icon>Add Shopping Item
+        </button>
+        <div class="tableDiv">
+            <table mat-table [dataSource]="shoppingItems" class="mat-elevation-z8">
+                <ng-container matColumnDef="addedShoppingItem">
+                    <th mat-header-cell *matHeaderCellDef> Shopping Items</th>
+                    <td mat-cell *matCellDef="let element"> {{element}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="action">
+                    <th class="actionDiv" mat-header-cell *matHeaderCellDef> Actions </th>
+                    <td mat-cell *matCellDef="let element">
+                        <button class="deleteBtn" mat-raised-button color="accent"
+                            (click)="updateShoppingItem(element)">Edit</button>
+                        <button class="deleteBtn" mat-raised-button color="warn"
+                            (click)="deleteShoppingItem(element)">Delete</button></td>
+                </ng-container>
+
+                <tr mat-header-row *matHeaderRowDef="shoppingItemDisplayedColumns"></tr>
+                <tr mat-row *matRowDef="let row; columns: shoppingItemDisplayedColumns;"></tr>
+            </table>
+        </div>
+
+    </mat-tab>
+
     <ng-template #ancillaryServiceDialog>
         <h2 matDialogTitle>
             Add Ancillary Service
@@ -83,8 +137,44 @@
             </form>
         </mat-dialog-content>
         <mat-dialog-actions align="end">
-            <button mat-stroked-button matDialogClose="no">Cancel</button>
-            <button mat-stroked-button matDialogClose={{ancillaryService}}>Submit Service</button>
+            <button mat-stroked-button color="accent" matDialogClose="no">Cancel</button>
+            <button mat-stroked-button color="primary" matDialogClose={{ancillaryService}}>Submit Service</button>
         </mat-dialog-actions>
 
+    </ng-template>
+
+    <ng-template #mealDialog>
+        <h2 matDialogTitle>
+            Add Meals
+        </h2>
+        <mat-dialog-content>
+            <form class="example-form">
+                <mat-form-field class="example-full-width">
+                    <mat-label>Meals</mat-label>
+                    <input matInput [(ngModel)]="meal" name="meal">
+                </mat-form-field>
+            </form>
+        </mat-dialog-content>
+        <mat-dialog-actions align="end">
+            <button mat-stroked-button color="accent" matDialogClose="no">Cancel</button>
+            <button mat-stroked-button color="primary" matDialogClose={{meal}}>Submit Meal</button>
+        </mat-dialog-actions>
+    </ng-template>
+
+    <ng-template #shoppingItemDialog>
+        <h2 matDialogTitle>
+            Add Shopping Items
+        </h2>
+        <mat-dialog-content>
+            <form class="example-form">
+                <mat-form-field class="example-full-width">
+                    <mat-label>Shopping Items</mat-label>
+                    <input matInput [(ngModel)]="shoppingItem" name="shoppingItem">
+                </mat-form-field>
+            </form>
+        </mat-dialog-content>
+        <mat-dialog-actions align="end">
+            <button mat-stroked-button color="accent" matDialogClose="no">Cancel</button>
+            <button mat-stroked-button color="primary" matDialogClose={{shoppingItem}}>Submit Item</button>
+        </mat-dialog-actions>
     </ng-template>

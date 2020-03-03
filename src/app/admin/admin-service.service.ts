@@ -71,6 +71,16 @@ export class AdminServiceService {
     return this.http.put<any[]>(this.api + `flights/${flightId}`, passengerObj);
   }
 
+  public editMeals(flightId, passengerObj) {
+    flightId += 1;
+    return this.http.put<any[]>(this.api + `flights/${flightId}`, passengerObj);
+  }
+
+  public editShoppingItems(flightId, passengerObj) {
+    flightId += 1;
+    return this.http.put<any[]>(this.api + `flights/${flightId}`, passengerObj);
+  }
+
   public deleteServices(id) {
     return this.http.delete<any>(this.api + 'ancilleryServices/' + id);
   }

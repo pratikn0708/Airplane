@@ -14,6 +14,8 @@ import { DialogComponent } from '../dialog/dialog.component';
 })
 export class HomeAdminComponent implements OnInit, OnDestroy {
   public displayedColumns: string[] = ['addedService', 'action'];
+  public mealDisplayedColumns: string[] = ['addedMeal', 'action'];
+  public shoppingItemDisplayedColumns: string[] = ['addedShoppingItem', 'action'];
   public displayedColumns2: string[] = ['passengerName', 'passportNumber', 'address', 'action'];
   public displayesColumns3: string[] = ['flightnumber', 'flightname', 'ancillaryservices', 'specialMeals', 'action'];
 
@@ -25,11 +27,17 @@ export class HomeAdminComponent implements OnInit, OnDestroy {
   public statusMessage: string;
   public statusCode: string;
   public services;
+  public meals;
+  public shoppingItems;
   private routeSub: Subscription;
   private flightId: number;
 
   ancillaryService = '';
+  meal = '';
+  shoppingItem = '';
   @ViewChild('ancillaryServiceDialog', { static: false }) ancillaryServiceDialog: TemplateRef<any>;
+  @ViewChild('mealDialog', { static: false }) mealDialog: TemplateRef<any>;
+  @ViewChild('shoppingItemDialog', { static: false }) shoppingItemDialog: TemplateRef<any>;
   constructor(
     private adminService: AdminServiceService,
     private route: Router,
@@ -44,6 +52,8 @@ export class HomeAdminComponent implements OnInit, OnDestroy {
         this.fetchPassengers();
         this.fetchallServices();
         this.fetchallFlights();
+        this.fetchallMeals();
+        this.fetchallShoppingItems();
       }
     });
     this.adminService.getStatusCode().subscribe(res => {
@@ -55,6 +65,8 @@ export class HomeAdminComponent implements OnInit, OnDestroy {
     this.fetchPassengers();
     this.fetchallServices();
     this.fetchallFlights();
+    this.fetchallMeals();
+    this.fetchallShoppingItems();
   }
 
   public fetchPassengers() {
@@ -69,7 +81,23 @@ export class HomeAdminComponent implements OnInit, OnDestroy {
 
   public fetchallServices() {
     this.adminService.getpassengersDetails().subscribe(res => {
+      this.meals = res[this.flightId].meals;
+    }, error => {
+      console.log(error);
+    });
+  }
+
+  public fetchallMeals() {
+    this.adminService.getpassengersDetails().subscribe(res => {
       this.services = res[this.flightId].ancilliaryServices;
+    }, error => {
+      console.log(error);
+    });
+  }
+
+  public fetchallShoppingItems() {
+    this.adminService.getpassengersDetails().subscribe(res => {
+      this.shoppingItems = res[this.flightId].shoppingItems;
     }, error => {
       console.log(error);
     });
@@ -111,13 +139,14 @@ export class HomeAdminComponent implements OnInit, OnDestroy {
     const dialogRef = this.dialog.open(this.ancillaryServiceDialog, { width: '300px' });
     dialogRef.afterClosed().subscribe(result => {
       if (result !== undefined && result !== 'no') {
+        const index = flightData.ancilliaryServices.indexOf(event);
         flightData.ancilliaryServices = flightData.ancilliaryServices.filter(
           item => item !== event.toString());
-        flightData.ancilliaryServices.push(result);
+        flightData.ancilliaryServices.splice(index, 0, result);
         this.adminService.editServices(this.flightId, flightData).subscribe(response => {
           if (response) {
             this.adminService.statusCode.next('1');
-            this.adminService.statusMessage.next('Suucessfully Updated the Passenger');
+            this.adminService.statusMessage.next('Suucessfully Updated the AncillaryServices');
           } else {
             this.adminService.statusCode.next('0');
             this.adminService.statusMessage.next('Something went wrong');
@@ -138,7 +167,7 @@ export class HomeAdminComponent implements OnInit, OnDestroy {
         this.adminService.editServices(this.flightId, flightData).subscribe(response => {
           if (response) {
             this.adminService.statusCode.next('1');
-            this.adminService.statusMessage.next('Suucessfully Updated the Passenger');
+            this.adminService.statusMessage.next('Suucessfully Added the AncillaryServices');
           } else {
             this.adminService.statusCode.next('0');
             this.adminService.statusMessage.next('Something went wrong');
@@ -157,7 +186,7 @@ export class HomeAdminComponent implements OnInit, OnDestroy {
     this.adminService.editServices(this.flightId, flightData).subscribe(response => {
       if (response) {
         this.adminService.statusCode.next('1');
-        this.adminService.statusMessage.next('Suucessfully Updated the Passenger');
+        this.adminService.statusMessage.next('Suucessfully Deleted the AncillaryServices');
       } else {
         this.adminService.statusCode.next('0');
         this.adminService.statusMessage.next('Something went wrong');
@@ -165,12 +194,129 @@ export class HomeAdminComponent implements OnInit, OnDestroy {
     });
   }
 
+  public updateMeal(event) {
+    this.meal = event;
+    const flightData = this.allFlightDetails[this.flightId];
 
-  // public updateFlightDetalls(event) {
-  //   this.adminService.editedFlightData(event);
-  //   const dialogRef = this.dialog.open(FlightDialogComponent, {});
-  //   dialogRef.afterClosed().subscribe();
-  // }
+    const dialogRef = this.dialog.open(this.mealDialog, { width: '300px' });
+    dialogRef.afterClosed().subscribe(result => {
+      if (result !== undefined && result !== 'no') {
+        const index = flightData.meals.indexOf(event);
+        flightData.meals = flightData.meals.filter(
+          item => item !== event.toString());
+        flightData.meals.splice(index, 0, result);
+        this.adminService.editMeals(this.flightId, flightData).subscribe(response => {
+          if (response) {
+            this.adminService.statusCode.next('1');
+            this.adminService.statusMessage.next('Suucessfully Updated the Meal');
+          } else {
+            this.adminService.statusCode.next('0');
+            this.adminService.statusMessage.next('Something went wrong');
+          }
+        });
+      }
+    });
+    dialogRef.afterClosed().subscribe();
+  }
+
+  public onAddMeals() {
+    const flightData = this.allFlightDetails[this.flightId];
+
+    const dialogRef = this.dialog.open(this.mealDialog, { width: '300px' });
+    dialogRef.afterClosed().subscribe(result => {
+      if (result !== undefined && result !== 'no') {
+        flightData.meals.push(result);
+        this.adminService.editMeals(this.flightId, flightData).subscribe(response => {
+          if (response) {
+            this.adminService.statusCode.next('1');
+            this.adminService.statusMessage.next('Suucessfully Added the Meal');
+          } else {
+            this.adminService.statusCode.next('0');
+            this.adminService.statusMessage.next('Something went wrong');
+          }
+        });
+      }
+    });
+    this.meal = '';
+    dialogRef.afterClosed().subscribe();
+  }
+
+  public deleteMeal(event) {
+    const flightData = this.allFlightDetails[this.flightId];
+    flightData.meals = flightData.meals.filter(
+      item => item !== event.toString());
+    this.adminService.editMeals(this.flightId, flightData).subscribe(response => {
+      if (response) {
+        this.adminService.statusCode.next('1');
+        this.adminService.statusMessage.next('Suucessfully Deleted the Meal');
+      } else {
+        this.adminService.statusCode.next('0');
+        this.adminService.statusMessage.next('Something went wrong');
+      }
+    });
+  }
+
+  public updateShoppingItem(event) {
+    this.shoppingItem = event;
+    const flightData = this.allFlightDetails[this.flightId];
+
+    const dialogRef = this.dialog.open(this.shoppingItemDialog, { width: '300px' });
+    dialogRef.afterClosed().subscribe(result => {
+      if (result !== undefined && result !== 'no') {
+        const index = flightData.shoppingItems.indexOf(event);
+        flightData.shoppingItems = flightData.shoppingItems.filter(
+          item => item !== event.toString());
+        flightData.shoppingItems.splice(index, 0, result);
+        this.adminService.editShoppingItems(this.flightId, flightData).subscribe(response => {
+          if (response) {
+            this.adminService.statusCode.next('1');
+            this.adminService.statusMessage.next('Suucessfully Updated the Shopping Items');
+          } else {
+            this.adminService.statusCode.next('0');
+            this.adminService.statusMessage.next('Something went wrong');
+          }
+        });
+      }
+    });
+    dialogRef.afterClosed().subscribe();
+  }
+
+  public onAddShoppingItem() {
+    const flightData = this.allFlightDetails[this.flightId];
+
+    const dialogRef = this.dialog.open(this.shoppingItemDialog, { width: '300px' });
+    dialogRef.afterClosed().subscribe(result => {
+      if (result !== undefined && result !== 'no') {
+        flightData.shoppingItems.push(result);
+        this.adminService.editShoppingItems(this.flightId, flightData).subscribe(response => {
+          if (response) {
+            this.adminService.statusCode.next('1');
+            this.adminService.statusMessage.next('Suucessfully Added the Shopping Items');
+          } else {
+            this.adminService.statusCode.next('0');
+            this.adminService.statusMessage.next('Something went wrong');
+          }
+        });
+      }
+    });
+    this.shoppingItem = '';
+    dialogRef.afterClosed().subscribe();
+  }
+
+  public deleteShoppingItem(event) {
+    const flightData = this.allFlightDetails[this.flightId];
+    flightData.shoppingItems = flightData.shoppingItems.filter(
+      item => item !== event.toString());
+    this.adminService.editShoppingItems(this.flightId, flightData).subscribe(response => {
+      if (response) {
+        this.adminService.statusCode.next('1');
+        this.adminService.statusMessage.next('Suucessfully Deleted the Shopping Item');
+      } else {
+        this.adminService.statusCode.next('0');
+        this.adminService.statusMessage.next('Something went wrong');
+      }
+    });
+  }
 
   public applyFilter(filterValue: string) {
     this.dataSource.filter = filterValue.trim().toLowerCase();
