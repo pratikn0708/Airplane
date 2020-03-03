@@ -10,11 +10,11 @@
                 <p>Departure Time:{{item.departureTime}}</p>
             </div>
             <!-- *ngIf="flag === 'staff'"  -->
-            <div class="flight-list-inFlight">
+            <div *ngIf="flag === 'staff'" class="flight-list-inFlight">
                 <button mat-stroked-button (click)="navigateTo(i, 'inFlight')">In-Flight</button>
             </div>
             <!-- *ngIf="flag === 'staff'"  -->
-            <div class="flight-list-checkIn">
+            <div *ngIf="flag === 'staff'" class="flight-list-checkIn">
                 <button mat-stroked-button (click)='navigateTo(i, "checkIn")'>Check-In</button>
             </div>
             <div class="flight-list-checkIn">

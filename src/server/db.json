@@ -30,13 +30,13 @@
         {
           "id": 4,
           "number": "1D",
-          "isOccupied": true,
+          "isOccupied": false,
           "passengerId": 1
         },
         {
           "id": 5,
           "number": "1E",
-          "isOccupied": false,
+          "isOccupied": true,
           "passengerId": null
         },
         {
@@ -157,7 +157,7 @@
       "passengersDetail": [
         {
           "name": "James Bond",
-          "seatNumber": "1D",
+          "seatNumber": "1E",
           "ancilliaryServices": [
             "Cold-drinks",
             "Movie",
@@ -190,7 +190,7 @@
           "passportNumber": "5432167",
           "address": "DC, USA",
           "dateOfBirth": "1900-07-19T18:38:50.000Z",
-          "isCheckedIn": true,
+          "isCheckedIn": false,
           "hasInfant": true,
           "isWheelChairRequired": false,
           "meals": [

@@ -1,3 +1,4 @@
+import { FlightService } from './../service/flight.service';
 import { filter } from 'rxjs/operators';
 import { element } from 'protractor';
 import { Store } from '@ngxs/store';
@@ -36,21 +37,20 @@ export class CheckInComponent implements OnInit {
     private router: Router,
     private route: ActivatedRoute,
     private store: Store,
-    public dialog: MatDialog
+    public dialog: MatDialog,
+    private flightService: FlightService,
   ) { }
 
   ngOnInit(): void {
     this.flightDetails = this.store.selectSnapshot(FlightState.getFlights);
     this.route.params.subscribe(params => {
       this.id = +params['flightId']; // (+) converts string 'id' to a number         
-      console.log(this.id);
     });
     this.selectedFlight = this.flightDetails[this.id];
     this.passengerDetails = JSON.parse(JSON.stringify(this.selectedFlight.passengersDetail));
     this.selectedFlight.passengersDetail.forEach(element => {
       this.ancillary.push(element.ancilliaryServices.toString().replace(/,/g, ', '));
     });
-    console.log(this.selectedFlight);
   }
 
   changeSeat(index) {
@@ -75,7 +75,13 @@ export class CheckInComponent implements OnInit {
             element.isOccupied = (passenger.seatNumber === element.number) ? false : element.isOccupied;
             element.isOccupied = (element.number === this.selectedSeat) ? true : element.isOccupied;
           });
+          this.selectedFlight.passengersDetail[index].seatNumber = this.selectedSeat;
           this.passengerDetails[index].seatNumber = this.selectedSeat;
+          
+          this.flightService.changeSeat(this.id, this.selectedFlight).subscribe(res => {
+            console.log('Seat changed');
+          },
+            error => console.log(error));
         }
       }
     });
@@ -98,33 +104,78 @@ export class CheckInComponent implements OnInit {
               element.isCheckedIn = this.status;
             }
           });
-          console.log(this.selectedFlight.passengersDetail);
+          this.selectedFlight.passengersDetail = this.passengerDetails;
+          this.flightService.changeStatus(this.id, this.selectedFlight).subscribe(res => {
+            console.log('status changed');
+          },
+            error => console.log(error));
         }
       }
     });
   }
 
-  filterPassenger(criteria) {
-    console.log(criteria);
-    // if (criteria.label === 'Checked-in') {
-    //   this.passengerDetails = (criteria.checked === true) ? this.selectedFlight.passengersDetail.filter(detail => detail.isCheckedIn):
-    //   this.selectedFlight.passengersDetail
-    // }
+  filterCount() {
+    let count = 0;
+    this.filter.forEach(element => {
+      element.checked ? count++ : count;
+    });
+    return count;
+  }
 
-    // if (criteria.label === 'Pending check-in') {
-    //   this.passengerDetails = (criteria.checked === true) ? this.selectedFlight.passengersDetail.filter(detail => !detail.isCheckedIn):
-    //   this.selectedFlight.passengersDetail.filter(detail => detail.isCheckedIn)
-    // }
+  filterCriterias() {
+    let criteria = [];
+    this.filter.forEach(element => {
+      element.checked ? criteria.push(element) : criteria;
+    });
+    return criteria;
+  }
 
-    // if (criteria.label === 'Wheel-chair') {
-    //   this.passengerDetails = (criteria.checked === true) ? this.selectedFlight.passengersDetail.filter(detail => detail.isWheelChairRequired):
-    //   this.selectedFlight.passengersDetail.filter(detail => !detail.isWheelChairRequired)
-    // }
-
-    // if (criteria.label === 'Infants') {
-    //   this.passengerDetails = (criteria.checked === true) ? this.selectedFlight.passengersDetail.filter(detail => detail.hasInfant):
-    //   this.selectedFlight.passengersDetail.filter(detail => !detail.hasInfant)
-    // }
+  filterPassenger() {
+    const options = this.filterCriterias();
+    if (this.filterCount() === 0 || this.filterCount() === 4) {
+      this.passengerDetails = this.selectedFlight.passengersDetail;
+    } else if (this.filterCount() === 1) {
+      if (options[0].label === 'Checked-in') {
+        this.passengerDetails = this.selectedFlight.passengersDetail.filter(detail => detail.isCheckedIn);
+      } else if (options[0].label === 'Pending check-in') {
+        this.passengerDetails = this.selectedFlight.passengersDetail.filter(detail => !detail.isCheckedIn);
+      } else if (options[0].label === 'Wheel-chair') {
+        this.passengerDetails = this.selectedFlight.passengersDetail.filter(detail => detail.isWheelChairRequired);
+      } else if (options[0].label === 'Infants') {
+        this.passengerDetails = this.selectedFlight.passengersDetail.filter(detail => detail.hasInfant);
+      }
+    } else if (this.filterCount() === 2) {
+      if (options[0].label === 'Checked-in' && options[1].label === 'Pending check-in') {
+        this.passengerDetails = this.selectedFlight.passengersDetail;
+      } else if (options[0].label === 'Checked-in' && options[1].label === 'Wheel-chair') {
+        this.passengerDetails = this.selectedFlight.passengersDetail.filter(detail =>
+          detail.isCheckedIn && detail.isWheelChairRequired);
+      } else if (options[0].label === 'Checked-in' && options[1].label === 'Infants') {
+        this.passengerDetails = this.selectedFlight.passengersDetail.filter(detail =>
+          detail.isCheckedIn && detail.hasInfant);
+      } else if (options[0].label === 'Pending check-in' && options[1].label === 'Wheel-chair') {
+        this.passengerDetails = this.selectedFlight.passengersDetail.filter(detail =>
+          !detail.isCheckedIn && detail.isWheelChairRequired);
+      } else if (options[0].label === 'Pending check-in' && options[1].label === 'Infants') {
+        this.passengerDetails = this.selectedFlight.passengersDetail.filter(detail =>
+          !detail.isCheckedIn && detail.hasInfant);
+      } else if (options[0].label === 'Wheel-chair' && options[1].label === 'Infants') {
+        this.passengerDetails = this.selectedFlight.passengersDetail.filter(detail =>
+          detail.isWheelChairRequired && detail.hasInfant);
+      }
+    } else if (this.filterCount() === 3) {
+      if (options[0].label === 'Checked-in' && options[1].label === 'Pending check-in' && options[2].label === 'Wheel-chair') {
+        this.passengerDetails = this.selectedFlight.passengersDetail.filter(detail => !detail.hasInfant && detail.isWheelChairRequired);
+      } else if (options[0].label === 'Checked-in' && options[1].label === 'Wheel-chair' && options[2].label === 'Infants') {
+        this.passengerDetails = this.selectedFlight.passengersDetail.filter(detail =>
+          detail.isCheckedIn && detail.isWheelChairRequired && detail.hasInfant);
+      } else if (options[0].label === 'Checked-in' && options[1].label === 'Pending check-in' && options[2].label === 'Infants') {
+        this.passengerDetails = this.selectedFlight.passengersDetail.filter(detail => !detail.isWheelChairRequired && detail.hasInfant);
+      } else if (options[0].label === 'Pending check-in' && options[1].label === 'Wheel-chair' && options[2].label === 'Infants') {
+        this.passengerDetails = this.selectedFlight.passengersDetail.filter(detail =>
+          !detail.isCheckedIn && detail.isWheelChairRequired && detail.hasInfant);
+      }
+    }
   }
 
 }

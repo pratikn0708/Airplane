@@ -15,4 +15,14 @@ export class FlightService {
   getFlights(): Observable<Flight[]> {
     return this.httpClient.get<Flight[]>(`${this.BASE_URL}/flights`);
   }
+
+  changeSeat(flightId, flightObj) {
+    flightId += 1;
+    return this.httpClient.put<any>(this.BASE_URL + '/flights/' + flightId, flightObj);
+  }
+
+  changeStatus(flightId, flightObj) {
+    flightId += 1;
+    return this.httpClient.put<any>(this.BASE_URL + '/flights/' + flightId, flightObj);
+  }
 }

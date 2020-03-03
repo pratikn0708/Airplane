@@ -42,7 +42,7 @@
                 </mat-panel-title>
               </mat-expansion-panel-header>
               <div class="col" *ngFor="let item of filter; let i = index;">
-                <mat-checkbox [(ngModel)]="item.checked" (change)="filterPassenger(item)">{{item.label}}</mat-checkbox>
+                <mat-checkbox [(ngModel)]="item.checked" (change)="filterPassenger()">{{item.label}}</mat-checkbox>
               </div>
             </mat-expansion-panel>
           </mat-accordion>
