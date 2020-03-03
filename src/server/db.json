@@ -166,14 +166,13 @@
           "passportNumber": "5432161",
           "address": "Florida, US",
           "dateOfBirth": "1976-11-19T18:30:00.000Z",
-          "isCheckedIn": "yes",
-          "hasInfant": "no",
-          "isWheelChairRequired": "no",
+          "isCheckedIn": true,
+          "hasInfant": false,
+          "isWheelChairRequired": false,
           "meals": [
+            "Veg",
             "Chinese",
-            "French",
-            "Non-veg",
-            "Veg"
+            "French"
           ],
           "shoppingItems": [
             "Jewellery"
@@ -181,7 +180,6 @@
           "id": 1
         },
         {
-          "id": 2,
           "name": "Captain America",
           "seatNumber": "1A",
           "ancilliaryServices": [
@@ -189,12 +187,12 @@
             "Snacks",
             "Movie"
           ],
-          "passportNumber": "5432168",
+          "passportNumber": "5432167",
           "address": "DC, USA",
           "dateOfBirth": "1900-07-19T18:38:50.000Z",
-          "isCheckedIn": "yes",
-          "hasInfant": "yes",
-          "isWheelChairRequired": "no",
+          "isCheckedIn": true,
+          "hasInfant": true,
+          "isWheelChairRequired": false,
           "meals": [
             "Non-veg",
             "French",
@@ -203,7 +201,8 @@
           ],
           "shoppingItems": [
             "Jewellery"
-          ]
+          ],
+          "id": 2
         },
         {
           "ancilliaryServices": [
@@ -248,14 +247,15 @@
           "name": "Test",
           "seatNumber": "4F",
           "ancilliaryServices": [
-            "Snacks"
+            "Snacks",
+            "Movies"
           ],
           "passportNumber": "5432168",
           "address": "qq",
           "dateOfBirth": "1995-06-12T18:30:00.000Z",
-          "isCheckedIn": "no",
-          "hasInfant": "no",
-          "isWheelChairRequired": "no",
+          "isCheckedIn": false,
+          "hasInfant": false,
+          "isWheelChairRequired": false,
           "meals": [
             "Veg"
           ],

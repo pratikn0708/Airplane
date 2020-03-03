@@ -91,6 +91,23 @@ export class DialogComponent implements OnInit {
   public onsubmit() {
     const data = this.CreatePassenger.value;
     if (this.id === undefined) {
+      if (data.hasInfant === 'yes') {
+        data.hasInfant = true;
+      } else if (data.hasInfant === 'no') {
+        data.hasInfant = false;
+      }
+
+      if (data.isCheckedIn === 'yes') {
+        data.isCheckedIn = true;
+      } else if (data.isCheckedIn === 'no') {
+        data.isCheckedIn = false;
+      }
+
+      if (data.isWheelChairRequired === 'yes') {
+        data.isWheelChairRequired = true;
+      } else if (data.isWheelChairRequired === 'no') {
+        data.isWheelChairRequired = false;
+      }
       const flightdata = this.flightsData[this.flightId];
       const personid = flightdata.passengersDetail.length;
       data.id = personid + 1;
@@ -108,6 +125,23 @@ export class DialogComponent implements OnInit {
       });
     } else {
       const updatedData = this.CreatePassenger.value;
+      if (updatedData.hasInfant === 'yes') {
+        updatedData.hasInfant = true;
+      } else if (updatedData.hasInfant === 'no') {
+        updatedData.hasInfant = false;
+      }
+
+      if (updatedData.isCheckedIn === 'yes') {
+        updatedData.isCheckedIn = true;
+      } else if (updatedData.isCheckedIn === 'no') {
+        updatedData.isCheckedIn = false;
+      }
+
+      if (updatedData.isWheelChairRequired === 'yes') {
+        updatedData.isWheelChairRequired = true;
+      } else if (updatedData.isWheelChairRequired === 'no') {
+        updatedData.isWheelChairRequired = false;
+      }
       const flightData = this.flightsData[this.flightId];
 
       flightData.passengersDetail[this.id - 1] = updatedData;
