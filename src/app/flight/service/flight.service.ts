@@ -8,11 +8,19 @@ import { Flight } from './flight.model';
   providedIn: 'root'
 })
 export class FlightService {
-  constructor(private httpClient: HttpClient) { }
+  constructor(private httpClient: HttpClient) {}
 
   BASE_URL = environment.apiUrl;
 
   getFlights(): Observable<Flight[]> {
     return this.httpClient.get<Flight[]>(`${this.BASE_URL}/flights`);
+  }
+
+  updateAncilliaryServices(flightId, flightData) {
+    flightId+=1;
+    return this.httpClient.put(
+      this.BASE_URL + '/flights/' + flightId,
+      flightData
+    );
   }
 }

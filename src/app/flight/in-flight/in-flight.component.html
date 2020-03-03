@@ -1,1 +1,89 @@
-<p>in-flight works!</p>
+<div class="container">
+  <mat-card class="bg">
+    <mat-grid-list cols="4" rows="1" rowHeight="100px">
+      <div class="flight-name"><b>{{selectedFlight.name}}</b><span><i class="fa fa-plane" aria-hidden="true"></i></span>
+      </div>
+      <div class="flex-row">
+        <div class="flight"><b>Source: </b>{{selectedFlight.source}}</div>
+        <div class="flight-time"><b>Duration: </b>{{selectedFlight.duration}}</div>
+        <div class="flight"><b>Destination: </b>{{selectedFlight.destination}}</div>
+      </div>
+      <div class="flex-row">
+        <div class="flight-depart"><b>Departure: </b>{{selectedFlight.departureTime}}</div>
+        <div></div>
+        <div><b>Arrival: </b>{{selectedFlight.arrivalTime}}</div>
+      </div>
+    </mat-grid-list>
+  </mat-card>
+</div>
+
+<div class="container">
+  <div class="flex-row">
+    <div class="grid-container">
+      <div class="header"><b>Seat Grid</b></div>
+      <div class="flex-row">
+        <div class="grid-view">
+          <div *ngFor="let seat of selectedFlight.seatsDetail; let i = index"
+            (click)="seat.isOccupied ? changeStatus(seat): false">
+            <div class="seat-view" [ngClass]="{'booked': seat.isOccupied, 'vacant': !seat.isOccupied }">
+              <span class="seat-num">{{seat.number}}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <ng-template #changeSeatDialog>
+    <h2 matDialogTitle>Change Seat</h2>
+    <h5>For: {{selectedPassenger}}</h5>
+    <mat-dialog-content>
+      <mat-form-field>
+        <mat-label>Select seat</mat-label>
+        <mat-select [(value)]="selectedSeat">
+          <mat-option *ngFor="let seat of vacantSeats" [value]="seat.number">
+            {{seat.number}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </mat-dialog-content>
+    <mat-dialog-actions align="end">
+      <button mat-stroked-button matDialogClose="no">Cancel</button>
+      <button mat-stroked-button matDialogClose="yes">Change Seat</button>
+    </mat-dialog-actions>
+  </ng-template>
+
+  <ng-template #changeStatusDialog>
+    <h5 matDialogTitle>Update your in-flight services</h5>
+    <h5>For: {{selectedPassenger}}</h5>
+    <mat-dialog-content>
+      <label id="example-radio-group-label">In-flight Service Status</label>
+      <mat-radio-group aria-labelledby="status-radio-group-label" class="status-radio-group"
+        [(ngModel)]="ancillatoryServicesStatus">
+        Ancillatory Services
+        <mat-checkbox class="status-radio-button" [value]="service"
+          [checked]="showAncilliaryServices('ancilliaryServices', service)"
+          *ngFor="let service of selectedFlight.ancilliaryServices">{{ service }}</mat-checkbox>
+      </mat-radio-group>
+      <mat-radio-group aria-labelledby="status-radio-group-label" class="status-radio-group"
+        [(ngModel)]="foodServicesStatus">
+        Food
+        <mat-checkbox class="status-radio-button" [value]="service" [checked]="showMeals('meals', service)"
+          *ngFor="let service of selectedFlight.meals">
+          {{ service }}</mat-checkbox>
+      </mat-radio-group>
+
+      <mat-radio-group aria-labelledby="status-radio-group-label" class="status-radio-group"
+        [(ngModel)]="shoppingItemsService">
+        Shopping
+        <mat-checkbox class="status-radio-button" [value]="service" [checked]="showShoppingItems('meals', service)"
+          *ngFor="let service of selectedFlight.shoppingItems">
+          {{ service }}</mat-checkbox>
+      </mat-radio-group>
+
+    </mat-dialog-content>
+    <mat-dialog-actions align="end">
+      <button mat-stroked-button matDialogClose="no">Cancel</button>
+      <button mat-stroked-button matDialogClose="yes">Update</button>
+    </mat-dialog-actions>
+  </ng-template>
