@@ -1,97 +1,102 @@
 <div class="container">
-    <mat-card class="bg">
-      <mat-grid-list cols="4" rows="1" rowHeight="100px">
-        <div class="flight-name"><b>{{selectedFlight.name}}</b><span><i class="fa fa-plane" aria-hidden="true"></i></span></div>
-        <div class="flex-row">
-          <div class="flight"><b>Source:  </b>{{selectedFlight.source}}</div>
-          <div class="flight-time"><b>Duration:  </b>{{selectedFlight.duration}}</div>
-          <div class="flight"><b>Destination:  </b>{{selectedFlight.destination}}</div>
-        </div>
-        <div class="flex-row">
-          <div class="flight-depart"><b>Departure:  </b>{{selectedFlight.departureTime}}</div>
-          <div></div>
-          <div><b>Arrival:  </b>{{selectedFlight.arrivalTime}}</div>
-        </div>
-      </mat-grid-list>
-    </mat-card>
+  <div class="flex-color">
+    <div class="color-guide booked"></div>
+    <div class="guide-text">Occupied</div>
+    <div class="color-guide vacant"></div>
+    <div class="guide-text">Vacant</div>
   </div>
-  
-  <div class="container">
-    <div class="flex-row">
-      <div class="grid-container">
-        <div class="header"><b>Seat Grid</b></div>
-        <div class="flex-row">
-          <div class="grid-view">
-            <div *ngFor="let seat of selectedFlight.seatsDetail; let i = index" (click)="seat.isOccupied ? changeStatus(seat): false">
-              <div class="seat-view" [ngClass]="{'booked': seat.isOccupied, 'vacant': !seat.isOccupied }">
-                <span class="seat-num">{{seat.number}}</span>
-              </div>
+  <mat-card class="bg">
+    <mat-grid-list cols="4" rows="1" rowHeight="100px">
+      <div class="flight-name"><b>{{selectedFlight.name}}</b><span><i class="fa fa-plane" aria-hidden="true"></i></span></div>
+      <div class="flex-row">
+        <div class="flight"><b>Source:  </b>{{selectedFlight.source}}</div>
+        <div class="flight-time"><b>Duration:  </b>{{selectedFlight.duration}}</div>
+        <div class="flight"><b>Destination:  </b>{{selectedFlight.destination}}</div>
+      </div>
+      <div class="flex-row">
+        <div class="flight-depart"><b>Departure:  </b>{{selectedFlight.departureTime}}</div>
+        <div></div>
+        <div><b>Arrival:  </b>{{selectedFlight.arrivalTime}}</div>
+      </div>
+    </mat-grid-list>
+  </mat-card>
+</div>
+
+<div class="container">
+  <div class="flex-row">
+    <div class="grid-container">
+      <div class="header"><b>Seat Grid</b></div>
+      <div class="flex-row">
+        <div class="grid-view">
+          <div *ngFor="let seat of selectedFlight.seatsDetail; let i = index" (click)="seat.isOccupied ? changeStatus(seat): false">
+            <div class="seat-view" [ngClass]="{'booked': seat.isOccupied, 'vacant': !seat.isOccupied }">
+              <span class="seat-num">{{seat.number}}</span>
             </div>
           </div>
         </div>
       </div>
-      <div class="grid-container">
-        <div class="header"><b>Passenger List</b></div>
-  
-        <div class="flex-col">
-          <mat-accordion>
-            <mat-expansion-panel>
-              <mat-expansion-panel-header>
-                <mat-panel-title>
-                  Filters <span><i class="fa fa-filter"></i></span>
-                </mat-panel-title>
-              </mat-expansion-panel-header>
-              <div class="col" *ngFor="let item of filter; let i = index;">
-                <mat-checkbox [(ngModel)]="item.checked" (change)="filterPassenger()">{{item.label}}</mat-checkbox>
-              </div>
-            </mat-expansion-panel>
-          </mat-accordion>
-          <mat-list>
-            <mat-list-item *ngFor="let passenger of passengerDetails; let i = index">
-              <mat-chip-list>
-                <mat-chip class="pass-name" (click)="changeSeat(i)">{{passenger.name}}</mat-chip>
-                <mat-chip class="pass-info" disabled>{{passenger.seatNumber}}</mat-chip>
-                <mat-chip class="pass-info" disabled>{{ancillary[i]}}</mat-chip>
-              </mat-chip-list>
-            </mat-list-item>
-          </mat-list>
-        </div>
+    </div>
+    <div class="grid-container">
+      <div class="header"><b>Passenger List</b></div>
+
+      <div class="flex-col">
+        <mat-accordion>
+          <mat-expansion-panel>
+            <mat-expansion-panel-header>
+              <mat-panel-title>
+                Filters <span><i class="fa fa-filter"></i></span>
+              </mat-panel-title>
+            </mat-expansion-panel-header>
+            <div class="col" *ngFor="let item of filter; let i = index;">
+              <mat-checkbox [(ngModel)]="item.checked" (change)="filterPassenger()">{{item.label}}</mat-checkbox>
+            </div>
+          </mat-expansion-panel>
+        </mat-accordion>
+        <mat-list>
+          <mat-list-item *ngFor="let passenger of passengerDetails; let i = index">
+            <mat-chip-list>
+              <mat-chip class="pass-name" (click)="changeSeat(i)">{{passenger.name}}</mat-chip>
+              <mat-chip class="pass-info" disabled>{{passenger.seatNumber}}</mat-chip>
+              <mat-chip class="pass-info" disabled>{{ancillary[i]}}</mat-chip>
+            </mat-chip-list>
+          </mat-list-item>
+        </mat-list>
       </div>
     </div>
   </div>
-  
-  <ng-template #changeSeatDialog>
-    <h2 matDialogTitle>Change Seat</h2>
-    <h5>For: {{selectedPassenger}}</h5>
-    <mat-dialog-content>
-      <mat-form-field>
-        <mat-label>Select seat</mat-label>
-        <mat-select [(value)]="selectedSeat">
-          <mat-option *ngFor="let seat of vacantSeats" [value]="seat.number">
-            {{seat.number}}
-          </mat-option>
-        </mat-select>
-      </mat-form-field>
-    </mat-dialog-content>
-    <mat-dialog-actions align="end">
-      <button mat-stroked-button matDialogClose="no">Cancel</button>
-      <button mat-stroked-button matDialogClose="yes">Change Seat</button>
-    </mat-dialog-actions>
-  </ng-template>
-  
-  <ng-template #changeStatusDialog>
-    <h2 matDialogTitle>Update check-in Status</h2>
-    <h5>For: {{selectedPassenger}}</h5>
-    <mat-dialog-content>
-      <label id="example-radio-group-label">Check-in Status</label>
-      <mat-radio-group aria-labelledby="status-radio-group-label" class="status-radio-group" [(ngModel)]="status">
-        <mat-radio-button class="status-radio-button" [value]="true">Checked-in</mat-radio-button>
-        <mat-radio-button class="status-radio-button" [value]="false">Pending Check-in</mat-radio-button>
-      </mat-radio-group>
-    </mat-dialog-content>
-    <mat-dialog-actions align="end">
-      <button mat-stroked-button matDialogClose="no">Cancel</button>
-      <button mat-stroked-button matDialogClose="yes">Change Status</button>
-    </mat-dialog-actions>
-  </ng-template>
-  
+</div>
+
+<ng-template #changeSeatDialog>
+  <h2 matDialogTitle>Change Seat</h2>
+  <h5>For: {{selectedPassenger}}</h5>
+  <mat-dialog-content>
+    <mat-form-field>
+      <mat-label>Select seat</mat-label>
+      <mat-select [(value)]="selectedSeat">
+        <mat-option *ngFor="let seat of vacantSeats" [value]="seat.number">
+          {{seat.number}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+  </mat-dialog-content>
+  <mat-dialog-actions align="end">
+    <button mat-stroked-button matDialogClose="no">Cancel</button>
+    <button mat-stroked-button matDialogClose="yes">Change Seat</button>
+  </mat-dialog-actions>
+</ng-template>
+
+<ng-template #changeStatusDialog>
+  <h2 matDialogTitle>Update check-in Status</h2>
+  <h5>For: {{selectedPassenger}}</h5>
+  <mat-dialog-content>
+    <label id="example-radio-group-label">Check-in Status</label>
+    <mat-radio-group aria-labelledby="status-radio-group-label" class="status-radio-group" [(ngModel)]="status">
+      <mat-radio-button class="status-radio-button" [value]="true">Checked-in</mat-radio-button>
+      <mat-radio-button class="status-radio-button" [value]="false">Pending Check-in</mat-radio-button>
+    </mat-radio-group>
+  </mat-dialog-content>
+  <mat-dialog-actions align="end">
+    <button mat-stroked-button matDialogClose="no">Cancel</button>
+    <button mat-stroked-button matDialogClose="yes">Change Status</button>
+  </mat-dialog-actions>
+</ng-template>
