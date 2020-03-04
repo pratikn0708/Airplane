@@ -2,6 +2,10 @@
     padding: 10px;
 }
 
+.mat-table {
+    overflow-y: scroll;
+  }
+
 .search{
     display: flex;
     justify-content: space-around;
@@ -13,7 +17,8 @@
 .tableDiv{
     display: flex;
     justify-content: center;
-
+    height: 300px;
+    overflow-y: scroll;
 }
 
 .deleteBtn{
@@ -36,4 +41,20 @@
 
   .btn{
       margin: 20px;
+  }
+
+::-webkit-scrollbar {
+    width: 10px;
+  }
+  
+  ::-webkit-scrollbar-track {
+    background: #f1f1f1;
+  }
+  
+  ::-webkit-scrollbar-thumb {
+    background: #888;
+  }
+  
+  ::-webkit-scrollbar-thumb:hover {
+    background: #555;
   }

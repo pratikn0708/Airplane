@@ -62,10 +62,6 @@ export class AdminServiceService {
     return this.http.put<any[]>(this.api + `flights/${flightId}`, passengerObj);
   }
 
-  public loadServices() {
-    return this.http.get<any[]>(this.api + 'ancilliaryServices');
-  }
-
   public editServices(flightId, passengerObj) {
     flightId += 1;
     return this.http.put<any[]>(this.api + `flights/${flightId}`, passengerObj);
@@ -79,18 +75,6 @@ export class AdminServiceService {
   public editShoppingItems(flightId, passengerObj) {
     flightId += 1;
     return this.http.put<any[]>(this.api + `flights/${flightId}`, passengerObj);
-  }
-
-  public deleteServices(id) {
-    return this.http.delete<any>(this.api + 'ancilleryServices/' + id);
-  }
-
-  public addServices(services) {
-    return this.http.post(this.api + 'ancilleryServices', services);
-  }
-
-  public selectedFlightServices(no) {
-    return this.http.get<any>(this.api + 'flights/' + no);
   }
 
   public setLoggedIn(toggle: boolean) {
