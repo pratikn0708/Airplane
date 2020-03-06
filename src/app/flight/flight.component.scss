@@ -32,4 +32,23 @@
     padding-left: inherit;
     font-weight: 900;
   }
+
+  .mat-list .mat-list-item {
+    align-self: center;
+    margin-top: 20px;
+    display: flex;
+    box-shadow: -3px -3px 5px #800000 , 3px 3px 5px #000000;
+    height: 100px;
+    width: 720px;
+    margin-left: 22%;
+  
+  }
+
+  .flightImage {
+    padding-left: 12px;
+    height: 50px;
+    width: 50px;
+    display: flex;
+    justify-content: center;
+  }
   

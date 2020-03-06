@@ -2,6 +2,9 @@
     <mat-list>
         <mat-list-item *ngFor="let item of flightDetails;let i = index" class="mat-list-item-flight-list">
             <div class="flight-list-id">{{item.id}}</div>
+            <div class="flightImage">
+                <img src={{item.flightImage}} style="width: 50px; height: 50px;" alt="Flight Logo" />
+            </div>
             <div class="flight-list-name">{{item.name}}</div>
             <div class="flight-list-arrivalTime">
                 <p>Arrival Time:{{item.arrivalTime}}</p>
